@@ -44,6 +44,7 @@ const noteTarget = {
 
 @DragSource(ItemTypes.LANE, laneSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
+  connectDragPreview: connect.dragPreview(),
   isDragging: monitor.isDragging()
 }))
 @DropTarget(ItemTypes.LANE, laneTarget, (connect) => ({
@@ -61,40 +62,42 @@ export default class Lane extends React.Component {
       isDragging,
       id, lane, onMove,
       ...props} = this.props;
-    
-    return connectDragSource(
-      connectLaneDropTarget(
-        connectNoteDropTarget(
-          <div
-            style={{opacity: isDragging ? 0 : 1}}
-            {...props} >
-            <div className="lane-header" onClick={this.activateLaneEdit}>
-              <div className="lane-add-note">
-                <button onClick={this.addNote}>+</button>
-              </div>
-              <Editable
-                className="lane-name"
-                editing={lane.editing}
-                value={lane.name}
-                onEdit={this.editName} />
-              <div className="lane-delete">
-                <button onClick={this.deleteLane}>x</button>
-              </div>
-            </div>
-            <AltContainer
-              stores={[NoteStore]}
-              inject={{
-                notes: () => NoteStore.getNotesByIds(lane.notes)
-              }}
-            >
-              <Notes
-                onValueClick={this.activateNoteEdit}
-                onEdit={this.editNote}
-                onDelete={this.deleteNote}
-                onMove={LaneActions.move} />
-            </AltContainer>
+
+    let content = (
+      <div style={{opacity: isDragging ? 0 : 1}} {...props}>
+        <div className="lane-header" onClick={this.activateLaneEdit}>
+          <div className="lane-add-note">
+            <button onClick={this.addNote}>+</button>
           </div>
-    )));
+          <Editable
+            className="lane-name"
+            editing={lane.editing}
+            value={lane.name}
+            onEdit={this.editName} />
+          <div className="lane-delete">
+            <button onClick={this.deleteLane}>x</button>
+          </div>
+        </div>
+        <AltContainer
+          stores={[NoteStore]}
+          inject={{
+            notes: () => NoteStore.getNotesByIds(lane.notes)
+          }}
+        >
+          <Notes
+            onValueClick={this.activateNoteEdit}
+            onEdit={this.editNote}
+            onDelete={this.deleteNote}
+            onMove={LaneActions.move} />
+        </AltContainer>
+      </div>
+    );
+
+    content = connectDragSource(content);
+    content = connectLaneDropTarget(content);
+    content = connectNoteDropTarget(content);
+
+    return content;
   }
   
   editNote(id, task){

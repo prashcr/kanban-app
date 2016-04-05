@@ -62,7 +62,7 @@ export default class Editable extends React.Component {
     // See the *Typing with React* chapter for more information.
     const { value } = e.target;
 
-    if(this.props.onEdit) {
+    if (this.props.onEdit) {
       this.props.onEdit(value);
     }
   };

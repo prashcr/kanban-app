@@ -27,6 +27,7 @@ const noteTarget = {
 
 @DragSource(ItemTypes.NOTE, noteSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
+  connectDragPreview: connect.dragPreview(),
   isDragging: monitor.isDragging() // map isDragging() state to isDragging prop
 }))
 @DropTarget(ItemTypes.NOTE, noteTarget, (connect) => ({

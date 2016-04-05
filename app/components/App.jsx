@@ -1,12 +1,13 @@
 import AltContainer from 'alt-container';
 import React from 'react';
 import Lanes from './Lanes.jsx';
+import CustomDragLayer from './CustomDragLayer';
 import LaneActions from '../actions/LaneActions';
 import LaneStore from '../stores/LaneStore';
 import {DragDropContext} from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import TouchBackend from 'react-dnd-touch-backend';
 
-@DragDropContext(HTML5Backend)
+@DragDropContext(TouchBackend)
 export default class App extends React.Component {
 
   render() {
@@ -20,6 +21,7 @@ export default class App extends React.Component {
       >
         <Lanes onSwap={LaneActions.swap} />
       </AltContainer>
+      <CustomDragLayer />
     </div>
   }
 
