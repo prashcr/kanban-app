@@ -1,7 +1,7 @@
 import React from 'react';
 import ItemTypes from '../constants/itemTypes';
-import Lane from './Lane';
-import Note from './Note';
+import LaneDragPreview from './LaneDragPreview';
+import NoteDragPreview from './NoteDragPreview';
 import {DragLayer} from 'react-dnd';
 
 const layerStyles = {
@@ -27,6 +27,7 @@ function getItemStyles (props) {
   var transform = `translate(${x}px, ${y}px)`;
 
   return {
+    pointerEvents: 'none',
     transform: transform,
     WebkitTransform: transform
   };
@@ -43,12 +44,12 @@ export default class CustomDragLayer extends React.Component {
   renderItem(type, item) {
     switch (type) {
       case ItemTypes.LANE:
-        return <Lane className="lane"
-                     key={item.id}
-                     id={item.id}
-                     lane={item} />
+        return <LaneDragPreview lane={item.lane} />;
       case ItemTypes.NOTE:
-        return <Note />
+        // Wrapped in a <ul> to mimic the CSS of the real note
+        return <ul className="notes">
+          <NoteDragPreview value={item.value} />
+        </ul>;
       default:
         return null
     }

@@ -5,7 +5,8 @@ import ItemTypes from '../constants/itemTypes';
 const noteSource = {
   beginDrag(props) {
     return {
-      id: props.id
+      id: props.id,
+      value: props.children.props.value
     };
   },
   isDragging(props, monitor) {

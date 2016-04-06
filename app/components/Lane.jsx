@@ -11,7 +11,8 @@ import ItemTypes from '../constants/itemTypes';
 const laneSource = {
   beginDrag(props) {
     return {
-      id: props.lane.id
+      id: props.lane.id,
+      lane: props.lane
     };
   }
 };
@@ -93,7 +94,14 @@ export default class Lane extends React.Component {
       </div>
     );
 
-    content = connectDragSource(content);
+    // Pass through if Lane or any of its notes are being edited
+    if (lane.editing === true || lane.notes.some(note => note.editing === true)) {
+
+    }
+    else {
+      content = connectDragSource(content);
+    }
+
     content = connectLaneDropTarget(content);
     content = connectNoteDropTarget(content);
 

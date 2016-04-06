@@ -7,7 +7,7 @@ import LaneStore from '../stores/LaneStore';
 import {DragDropContext} from 'react-dnd';
 import TouchBackend from 'react-dnd-touch-backend';
 
-@DragDropContext(TouchBackend)
+@DragDropContext(TouchBackend({ enableMouseEvents: true }))
 export default class App extends React.Component {
 
   render() {
